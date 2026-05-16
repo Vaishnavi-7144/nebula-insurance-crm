@@ -9,8 +9,6 @@ public static class DocumentIds
 
     public static string NewDocumentId() => $"doc_{NewUlidLikeString()}";
 
-    public static string NewUploadId() => $"upl_{NewUlidLikeString()}";
-
     public static bool IsDocumentId(string value)
     {
         if (!value.StartsWith("doc_", StringComparison.Ordinal) || value.Length != 30)

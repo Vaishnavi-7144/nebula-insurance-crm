@@ -13,8 +13,6 @@ public interface IPolicyRepository
     Task<Account?> GetAccountByIdAsync(Guid id, CancellationToken ct = default);
     Task<Broker?> GetBrokerByIdAsync(Guid id, CancellationToken ct = default);
     Task<CarrierRef?> GetCarrierByIdAsync(Guid id, CancellationToken ct = default);
-    Task<bool> AccountExistsAsync(Guid id, CancellationToken ct = default);
-    Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default);
     Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct = default);
     Task AddAsync(Policy policy, CancellationToken ct = default);
     Task AddVersionAsync(PolicyVersion version, CancellationToken ct = default);

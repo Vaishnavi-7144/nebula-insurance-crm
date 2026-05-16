@@ -61,12 +61,6 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
     public async Task<Broker?> GetBrokerByIdAsync(Guid id, CancellationToken ct = default) =>
         await db.Brokers.FirstOrDefaultAsync(broker => broker.Id == id && broker.Status == "Active", ct);
 
-    public async Task<bool> AccountExistsAsync(Guid id, CancellationToken ct = default) =>
-        await db.Accounts.AnyAsync(account => account.Id == id, ct);
-
-    public async Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default) =>
-        await db.Brokers.AnyAsync(broker => broker.Id == id && broker.Status == "Active", ct);
-
     public async Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct = default) =>
         await db.UserProfiles.AnyAsync(user => user.Id == id && user.IsActive, ct);
 

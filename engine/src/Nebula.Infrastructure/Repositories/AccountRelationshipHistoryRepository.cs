@@ -12,10 +12,4 @@ public class AccountRelationshipHistoryRepository(AppDbContext db) : IAccountRel
         db.AccountRelationshipHistory.Add(history);
         return Task.CompletedTask;
     }
-
-    public async Task<IReadOnlyList<AccountRelationshipHistory>> ListByAccountIdAsync(Guid accountId, CancellationToken ct = default) =>
-        await db.AccountRelationshipHistory
-            .Where(history => history.AccountId == accountId)
-            .OrderByDescending(history => history.EffectiveAt)
-            .ToListAsync(ct);
 }

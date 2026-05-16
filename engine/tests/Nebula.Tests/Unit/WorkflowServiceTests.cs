@@ -657,15 +657,6 @@ internal sealed class StubWorkflowTransitionRepository : IWorkflowTransitionRepo
             .Where(t => t.WorkflowType == workflowType && t.EntityId == entityId)
             .ToList());
 
-    public Task<IReadOnlyDictionary<Guid, DateTime>> GetLatestTransitionTimesAsync(
-        string workflowType,
-        IReadOnlyCollection<Guid> entityIds,
-        CancellationToken ct = default) =>
-        Task.FromResult<IReadOnlyDictionary<Guid, DateTime>>(Items
-            .Where(t => t.WorkflowType == workflowType && entityIds.Contains(t.EntityId))
-            .GroupBy(t => t.EntityId)
-            .ToDictionary(group => group.Key, group => group.Max(item => item.OccurredAt)));
-
     public Task AddAsync(WorkflowTransition transition, CancellationToken ct = default)
     {
         Items.Add(transition);
@@ -712,12 +703,6 @@ internal sealed class StubPolicyRepository : IPolicyRepository
         throw new NotSupportedException();
 
     public Task<CarrierRef?> GetCarrierByIdAsync(Guid id, CancellationToken ct = default) =>
-        throw new NotSupportedException();
-
-    public Task<bool> AccountExistsAsync(Guid id, CancellationToken ct = default) =>
-        throw new NotSupportedException();
-
-    public Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default) =>
         throw new NotSupportedException();
 
     public Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct = default) =>

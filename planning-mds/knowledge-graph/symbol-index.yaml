@@ -1,7 +1,7 @@
 version: 0
-generated_at: '2026-05-11T00:11:46+00:00'
+generated_at: '2026-05-16T21:32:24+00:00'
 summary:
-  total_symbols: 2303
+  total_symbols: 2290
   by_language:
     typescript:
       files: 54
@@ -9,8 +9,8 @@ summary:
       cached: 54
     csharp:
       files: 260
-      parsed: 0
-      cached: 260
+      parsed: 9
+      cached: 251
   disambiguated_ids: 10
 symbols:
 - id: symbol:capability-authorization-enforcement:casbin-authorization-service-tests.broker-policy-matches-policy-csv
@@ -6979,19 +6979,6 @@ symbols:
   - symbol:entity-account:account-service.merge-async
   - symbol:entity-account:account-service.transition-async
   callees: []
-- id: symbol:entity-account:account-relationship-history-repository.list-by-account-id-async
-  node: entity:account
-  kind: method
-  name: ListByAccountIdAsync
-  file: engine/src/Nebula.Infrastructure/Repositories/AccountRelationshipHistoryRepository.cs
-  line: 16
-  signature: public async Task<IReadOnlyList<AccountRelationshipHistory>> ListByAccountIdAsync(Guid
-    accountId, CancellationToken ct = default)
-  visibility: public
-  language: csharp
-  container: AccountRelationshipHistoryRepository
-  callers: []
-  callees: []
 - id: symbol:entity-account:account-relationship-history.account
   node: entity:account
   kind: property
@@ -7510,7 +7497,7 @@ symbols:
   kind: method
   name: ApplyNullableField
   file: engine/src/Nebula.Application/Services/AccountService.cs
-  line: 749
+  line: 721
   signature: private static void ApplyNullableField(
   visibility: private
   language: csharp
@@ -7707,30 +7694,12 @@ symbols:
   - symbol:entity-account:i-account-contact-repository.list-async
   - symbol:entity-account:i-account-repository.get-summary-projection-async
   - symbol:entity-account:i-account-repository.list-async
-- id: symbol:entity-account:account-service.list-policies-async
-  node: entity:account
-  kind: method
-  name: ListPoliciesAsync
-  file: engine/src/Nebula.Application/Services/AccountService.cs
-  line: 681
-  signature: public async Task<PaginatedResult<AccountPolicyListItemDto>> ListPoliciesAsync(
-  visibility: public
-  language: csharp
-  container: AccountService
-  callers: []
-  callees:
-  - symbol:entity-account:account-contact-service.resolve-broker-scope-async
-  - symbol:entity-account:account-repository.get-accessible-by-id-async
-  - symbol:entity-account:account-repository.list-policies-async
-  - symbol:entity-account:account-service.resolve-broker-scope-async
-  - symbol:entity-account:i-account-repository.get-accessible-by-id-async
-  - symbol:entity-account:i-account-repository.list-policies-async
 - id: symbol:entity-account:account-service.map-to-dto
   node: entity:account
   kind: method
   name: MapToDto
   file: engine/src/Nebula.Application/Services/AccountService.cs
-  line: 717
+  line: 689
   signature: private static AccountDto MapToDto(Account account)
   visibility: private
   language: csharp
@@ -7804,7 +7773,7 @@ symbols:
   kind: method
   name: ResolveBrokerScopeAsync
   file: engine/src/Nebula.Application/Services/AccountService.cs
-  line: 709
+  line: 681
   signature: private async Task<Guid?> ResolveBrokerScopeAsync(ICurrentUserService
     user, CancellationToken ct)
   visibility: private
@@ -7821,7 +7790,6 @@ symbols:
   - symbol:entity-account:account-service.get-merge-preview-async
   - symbol:entity-account:account-service.get-summary-async
   - symbol:entity-account:account-service.list-async
-  - symbol:entity-account:account-service.list-policies-async
   - symbol:entity-account:account-service.merge-async
   - symbol:entity-account:account-service.transition-async
   - symbol:entity-account:account-service.update-async
@@ -9070,19 +9038,6 @@ symbols:
   signature: public interface IAccountRelationshipHistoryRepository
   visibility: public
   language: csharp
-  callers: []
-  callees: []
-- id: symbol:entity-account:i-account-relationship-history-repository.list-by-account-id-async
-  node: entity:account
-  kind: method
-  name: ListByAccountIdAsync
-  file: engine/src/Nebula.Application/Interfaces/IAccountRelationshipHistoryRepository.cs
-  line: 8
-  signature: Task<IReadOnlyList<AccountRelationshipHistory>> ListByAccountIdAsync(Guid
-    accountId, CancellationToken ct = default)
-  visibility: internal
-  language: csharp
-  container: IAccountRelationshipHistoryRepository
   callers: []
   callees: []
 - id: symbol:entity-account:i-account-repository.add-async
@@ -13140,7 +13095,7 @@ symbols:
   kind: method
   name: IsDocumentId
   file: engine/src/Nebula.Domain/Documents/DocumentIds.cs
-  line: 14
+  line: 12
   signature: public static bool IsDocumentId(string value)
   visibility: public
   language: csharp
@@ -13167,34 +13122,20 @@ symbols:
   kind: method
   name: NewUlidLikeString
   file: engine/src/Nebula.Domain/Documents/DocumentIds.cs
-  line: 28
+  line: 26
   signature: private static string NewUlidLikeString()
   visibility: private
   language: csharp
   container: DocumentIds
   callers:
   - symbol:entity-document:document-ids.new-document-id
-  - symbol:entity-document:document-ids.new-upload-id
   callees: []
-- id: symbol:entity-document:document-ids.new-upload-id
-  node: entity:document
-  kind: method
-  name: NewUploadId
-  file: engine/src/Nebula.Domain/Documents/DocumentIds.cs
-  line: 12
-  signature: public static string NewUploadId()
-  visibility: public
-  language: csharp
-  container: DocumentIds
-  callers: []
-  callees:
-  - symbol:entity-document:document-ids.new-ulid-like-string
 - id: symbol:entity-document:document-ids.stable-guid
   node: entity:document
   kind: method
   name: StableGuid
   file: engine/src/Nebula.Domain/Documents/DocumentIds.cs
-  line: 22
+  line: 20
   signature: public static Guid StableGuid(string documentId)
   visibility: public
   language: csharp
@@ -17837,24 +17778,12 @@ symbols:
   language: typescript
   callers: []
   callees: []
-- id: symbol:entity-policy:i-policy-repository.account-exists-async
-  node: entity:policy
-  kind: method
-  name: AccountExistsAsync
-  file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 16
-  signature: Task<bool> AccountExistsAsync(Guid id, CancellationToken ct = default)
-  visibility: internal
-  language: csharp
-  container: IPolicyRepository
-  callers: []
-  callees: []
 - id: symbol:entity-policy:i-policy-repository.add-async
   node: entity:policy
   kind: method
   name: AddAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 19
+  line: 17
   signature: Task AddAsync(Policy policy, CancellationToken ct = default)
   visibility: internal
   language: csharp
@@ -17871,7 +17800,7 @@ symbols:
   kind: method
   name: AddCoverageLinesAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 22
+  line: 20
   signature: Task AddCoverageLinesAsync(IEnumerable<PolicyCoverageLine> coverageLines,
     CancellationToken ct = default)
   visibility: internal
@@ -17887,7 +17816,7 @@ symbols:
   kind: method
   name: AddEndorsementAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 21
+  line: 19
   signature: Task AddEndorsementAsync(PolicyEndorsement endorsement, CancellationToken
     ct = default)
   visibility: internal
@@ -17901,7 +17830,7 @@ symbols:
   kind: method
   name: AddVersionAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 20
+  line: 18
   signature: Task AddVersionAsync(PolicyVersion version, CancellationToken ct = default)
   visibility: internal
   language: csharp
@@ -17911,24 +17840,12 @@ symbols:
   - symbol:entity-policy:policy-service.endorse-async
   - symbol:entity-policy:policy-service.reinstate-async
   callees: []
-- id: symbol:entity-policy:i-policy-repository.broker-exists-async
-  node: entity:policy
-  kind: method
-  name: BrokerExistsAsync
-  file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 17
-  signature: Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default)
-  visibility: internal
-  language: csharp
-  container: IPolicyRepository
-  callers: []
-  callees: []
 - id: symbol:entity-policy:i-policy-repository.count-current-coverage-lines-async
   node: entity:policy
   kind: method
   name: CountCurrentCoverageLinesAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 34
+  line: 32
   signature: Task<int> CountCurrentCoverageLinesAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: internal
@@ -17942,7 +17859,7 @@ symbols:
   kind: method
   name: CountEndorsementsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 33
+  line: 31
   signature: Task<int> CountEndorsementsAsync(Guid policyId, CancellationToken ct
     = default)
   visibility: internal
@@ -17958,7 +17875,7 @@ symbols:
   kind: method
   name: CountOpenRenewalsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 35
+  line: 33
   signature: Task<int> CountOpenRenewalsAsync(Guid policyId, CancellationToken ct
     = default)
   visibility: internal
@@ -17973,7 +17890,7 @@ symbols:
   kind: method
   name: CountPoliciesForYearAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 31
+  line: 29
   signature: Task<int> CountPoliciesForYearAsync(int year, CancellationToken ct =
     default)
   visibility: internal
@@ -17987,7 +17904,7 @@ symbols:
   kind: method
   name: CountVersionsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 32
+  line: 30
   signature: Task<int> CountVersionsAsync(Guid policyId, CancellationToken ct = default)
   visibility: internal
   language: csharp
@@ -18033,7 +17950,7 @@ symbols:
   kind: method
   name: GetAccountSummaryAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 30
+  line: 28
   signature: Task<PolicyAccountSummaryDto?> GetAccountSummaryAsync(Guid accountId,
     ICurrentUserService user, Guid? brokerScopeId, CancellationToken ct = default)
   visibility: internal
@@ -18106,7 +18023,7 @@ symbols:
   kind: method
   name: GetCurrentVersionAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 25
+  line: 23
   signature: Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId, Guid? currentVersionId,
     CancellationToken ct = default)
   visibility: internal
@@ -18122,7 +18039,7 @@ symbols:
   kind: method
   name: GetCurrentVersionForUpdateAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 26
+  line: 24
   signature: Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid policyId, Guid?
     currentVersionId, CancellationToken ct = default)
   visibility: internal
@@ -18136,7 +18053,7 @@ symbols:
   kind: method
   name: GetSuccessorPolicyAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 36
+  line: 34
   signature: Task<Policy?> GetSuccessorPolicyAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: internal
@@ -18151,7 +18068,7 @@ symbols:
   kind: method
   name: GetVersionAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 27
+  line: 25
   signature: Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid versionId, CancellationToken
     ct = default)
   visibility: internal
@@ -18192,7 +18109,7 @@ symbols:
   kind: method
   name: ListCurrentCoverageLinesAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 29
+  line: 27
   signature: Task<IReadOnlyList<PolicyCoverageLine>> ListCurrentCoverageLinesAsync(Guid
     policyId, CancellationToken ct = default)
   visibility: internal
@@ -18208,7 +18125,7 @@ symbols:
   kind: method
   name: ListEndorsementsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 28
+  line: 26
   signature: Task<PaginatedResult<PolicyEndorsement>> ListEndorsementsAsync(Guid policyId,
     int page, int pageSize, CancellationToken ct = default)
   visibility: internal
@@ -18223,7 +18140,7 @@ symbols:
   kind: method
   name: ListIssuedPoliciesExpiredBeforeAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 37
+  line: 35
   signature: Task<IReadOnlyList<Policy>> ListIssuedPoliciesExpiredBeforeAsync(DateTime
     today, int maxBatchSize, CancellationToken ct = default)
   visibility: internal
@@ -18237,7 +18154,7 @@ symbols:
   kind: method
   name: ListVersionsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 24
+  line: 22
   signature: Task<PaginatedResult<PolicyVersion>> ListVersionsAsync(Guid policyId,
     int page, int pageSize, CancellationToken ct = default)
   visibility: internal
@@ -18252,7 +18169,7 @@ symbols:
   kind: method
   name: ProducerExistsAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 18
+  line: 16
   signature: Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct = default)
   visibility: internal
   language: csharp
@@ -18266,7 +18183,7 @@ symbols:
   kind: method
   name: SetCoverageCurrentAsync
   file: engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
-  line: 23
+  line: 21
   signature: Task SetCoverageCurrentAsync(Guid policyId, Guid policyVersionId, CancellationToken
     ct = default)
   visibility: internal
@@ -19976,25 +19893,12 @@ symbols:
   container: PolicyReinstateRequestValidator
   callers: []
   callees: []
-- id: symbol:entity-policy:policy-repository.account-exists-async
-  node: entity:policy
-  kind: method
-  name: AccountExistsAsync
-  file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 64
-  signature: public async Task<bool> AccountExistsAsync(Guid id, CancellationToken
-    ct = default)
-  visibility: public
-  language: csharp
-  container: PolicyRepository
-  callers: []
-  callees: []
 - id: symbol:entity-policy:policy-repository.add-async
   node: entity:policy
   kind: method
   name: AddAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 73
+  line: 67
   signature: public Task AddAsync(Policy policy, CancellationToken ct = default)
   visibility: public
   language: csharp
@@ -20011,7 +19915,7 @@ symbols:
   kind: method
   name: AddCoverageLinesAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 82
+  line: 76
   signature: public async Task AddCoverageLinesAsync(IEnumerable<PolicyCoverageLine>
     coverageLines, CancellationToken ct = default)
   visibility: public
@@ -20027,7 +19931,7 @@ symbols:
   kind: method
   name: AddEndorsementAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 79
+  line: 73
   signature: public Task AddEndorsementAsync(PolicyEndorsement endorsement, CancellationToken
     ct = default)
   visibility: public
@@ -20043,7 +19947,7 @@ symbols:
   kind: method
   name: AddVersionAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 76
+  line: 70
   signature: public Task AddVersionAsync(PolicyVersion version, CancellationToken
     ct = default)
   visibility: public
@@ -20061,7 +19965,7 @@ symbols:
   kind: method
   name: ApplyFilters
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 276
+  line: 270
   signature: private static IQueryable<Policy> ApplyFilters(IQueryable<Policy> query,
     PolicyListQuery filters)
   visibility: private
@@ -20075,7 +19979,7 @@ symbols:
   kind: method
   name: ApplySort
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 313
+  line: 307
   signature: private static IQueryable<Policy> ApplySort(IQueryable<Policy> query,
     PolicyListQuery filters)
   visibility: private
@@ -20084,25 +19988,12 @@ symbols:
   callers:
   - symbol:entity-policy:policy-repository.list-async
   callees: []
-- id: symbol:entity-policy:policy-repository.broker-exists-async
-  node: entity:policy
-  kind: method
-  name: BrokerExistsAsync
-  file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 67
-  signature: public async Task<bool> BrokerExistsAsync(Guid id, CancellationToken
-    ct = default)
-  visibility: public
-  language: csharp
-  container: PolicyRepository
-  callers: []
-  callees: []
 - id: symbol:entity-policy:policy-repository.count-current-coverage-lines-async
   node: entity:policy
   kind: method
   name: CountCurrentCoverageLinesAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 207
+  line: 201
   signature: public async Task<int> CountCurrentCoverageLinesAsync(Guid policyId,
     CancellationToken ct = default)
   visibility: public
@@ -20116,7 +20007,7 @@ symbols:
   kind: method
   name: CountEndorsementsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 204
+  line: 198
   signature: public async Task<int> CountEndorsementsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -20132,7 +20023,7 @@ symbols:
   kind: method
   name: CountOpenRenewalsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 210
+  line: 204
   signature: public async Task<int> CountOpenRenewalsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -20147,7 +20038,7 @@ symbols:
   kind: method
   name: CountPoliciesForYearAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 198
+  line: 192
   signature: public async Task<int> CountPoliciesForYearAsync(int year, CancellationToken
     ct = default)
   visibility: public
@@ -20161,7 +20052,7 @@ symbols:
   kind: method
   name: CountVersionsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 201
+  line: 195
   signature: public async Task<int> CountVersionsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -20209,7 +20100,7 @@ symbols:
   kind: method
   name: GetAccountSummaryAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 153
+  line: 147
   signature: public async Task<PolicyAccountSummaryDto?> GetAccountSummaryAsync(
   visibility: public
   language: csharp
@@ -20284,7 +20175,7 @@ symbols:
   kind: method
   name: GetCurrentVersionAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 109
+  line: 103
   signature: public async Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId,
     Guid? currentVersionId, CancellationToken ct = default)
   visibility: public
@@ -20300,7 +20191,7 @@ symbols:
   kind: method
   name: GetCurrentVersionForUpdateAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 117
+  line: 111
   signature: public async Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid
     policyId, Guid? currentVersionId, CancellationToken ct = default)
   visibility: public
@@ -20314,7 +20205,7 @@ symbols:
   kind: method
   name: GetScopedQuery
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 244
+  line: 238
   signature: private IQueryable<Policy> GetScopedQuery(
   visibility: private
   language: csharp
@@ -20334,7 +20225,7 @@ symbols:
   kind: method
   name: GetSuccessorPolicyAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 214
+  line: 208
   signature: public async Task<Policy?> GetSuccessorPolicyAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -20349,7 +20240,7 @@ symbols:
   kind: method
   name: GetVersionAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 125
+  line: 119
   signature: public async Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid
     versionId, CancellationToken ct = default)
   visibility: public
@@ -20364,7 +20255,7 @@ symbols:
   kind: method
   name: HasRole
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 331
+  line: 325
   signature: private static bool HasRole(IReadOnlyList<string> roles, string role)
   visibility: private
   language: csharp
@@ -20397,7 +20288,7 @@ symbols:
   kind: method
   name: ListCurrentCoverageLinesAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 146
+  line: 140
   signature: public async Task<IReadOnlyList<PolicyCoverageLine>> ListCurrentCoverageLinesAsync(Guid
     policyId, CancellationToken ct = default)
   visibility: public
@@ -20413,7 +20304,7 @@ symbols:
   kind: method
   name: ListEndorsementsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 130
+  line: 124
   signature: public async Task<PaginatedResult<PolicyEndorsement>> ListEndorsementsAsync(Guid
     policyId, int page, int pageSize, CancellationToken ct = default)
   visibility: public
@@ -20428,7 +20319,7 @@ symbols:
   kind: method
   name: ListIssuedPoliciesExpiredBeforeAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 227
+  line: 221
   signature: public async Task<IReadOnlyList<Policy>> ListIssuedPoliciesExpiredBeforeAsync(
   visibility: public
   language: csharp
@@ -20441,7 +20332,7 @@ symbols:
   kind: method
   name: ListVersionsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 96
+  line: 90
   signature: public async Task<PaginatedResult<PolicyVersion>> ListVersionsAsync(Guid
     policyId, int page, int pageSize, CancellationToken ct = default)
   visibility: public
@@ -20456,7 +20347,7 @@ symbols:
   kind: method
   name: NormalizeRegions
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 334
+  line: 328
   signature: private static List<string> NormalizeRegions(IReadOnlyList<string> regions)
   visibility: private
   language: csharp
@@ -20481,7 +20372,7 @@ symbols:
   kind: class
   name: PolicyStatuses
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 342
+  line: 336
   signature: public static class PolicyStatuses
   visibility: public
   language: csharp
@@ -20492,7 +20383,7 @@ symbols:
   kind: method
   name: ProducerExistsAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 70
+  line: 64
   signature: public async Task<bool> ProducerExistsAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -20507,7 +20398,7 @@ symbols:
   kind: method
   name: SetCoverageCurrentAsync
   file: engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
-  line: 85
+  line: 79
   signature: public async Task SetCoverageCurrentAsync(Guid policyId, Guid policyVersionId,
     CancellationToken ct = default)
   visibility: public
@@ -23926,7 +23817,7 @@ symbols:
   kind: method
   name: AddActivationEventAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 801
+  line: 786
   signature: public Task AddActivationEventAsync(LobBundleActivationEvent activationEvent,
     CancellationToken ct = default)
   visibility: public
@@ -23939,7 +23830,7 @@ symbols:
   kind: method
   name: DeactivateActiveBundlesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 798
+  line: 783
   signature: public Task DeactivateActiveBundlesAsync(Guid productVersionId, Guid
     exceptBundleId, DateTime now, Guid actorUserId, CancellationToken ct = default)
   visibility: public
@@ -23952,7 +23843,7 @@ symbols:
   kind: method
   name: GetActiveBundleAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 795
+  line: 780
   signature: public Task<LobSchemaBundle?> GetActiveBundleAsync(string productKey,
     string productVersion, string schemaVersion, string? lineOfBusiness, CancellationToken
     ct = default)
@@ -23966,7 +23857,7 @@ symbols:
   kind: method
   name: GetBundleByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 789
+  line: 774
   signature: public Task<LobSchemaBundle?> GetBundleByIdAsync(Guid bundleId, bool
     track, CancellationToken ct = default)
   visibility: public
@@ -23979,7 +23870,7 @@ symbols:
   kind: method
   name: GetBundleByProductVersionIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 792
+  line: 777
   signature: public Task<LobSchemaBundle?> GetBundleByProductVersionIdAsync(Guid productVersionId,
     bool track, CancellationToken ct = default)
   visibility: public
@@ -23992,7 +23883,7 @@ symbols:
   kind: method
   name: ListBundlesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 786
+  line: 771
   signature: public Task<IReadOnlyList<LobSchemaBundle>> ListBundlesAsync(string?
     productKey, string? lineOfBusiness, bool activeOnly, CancellationToken ct = default)
   visibility: public
@@ -24000,25 +23891,12 @@ symbols:
   container: StubLobSchemaRepository
   callers: []
   callees: []
-- id: symbol:entity-renewal:stub-policy-repository.account-exists-async
-  node: entity:renewal
-  kind: method
-  name: AccountExistsAsync
-  file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 717
-  signature: public Task<bool> AccountExistsAsync(Guid id, CancellationToken ct =
-    default)
-  visibility: public
-  language: csharp
-  container: StubPolicyRepository
-  callers: []
-  callees: []
 - id: symbol:entity-renewal:stub-policy-repository.add-async
   node: entity:renewal
   kind: method
   name: AddAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 726
+  line: 711
   signature: public Task AddAsync(Policy policy, CancellationToken ct = default)
   visibility: public
   language: csharp
@@ -24033,7 +23911,7 @@ symbols:
   kind: method
   name: AddCoverageLinesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 735
+  line: 720
   signature: public Task AddCoverageLinesAsync(IEnumerable<PolicyCoverageLine> coverageLines,
     CancellationToken ct = default)
   visibility: public
@@ -24046,7 +23924,7 @@ symbols:
   kind: method
   name: AddEndorsementAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 732
+  line: 717
   signature: public Task AddEndorsementAsync(PolicyEndorsement endorsement, CancellationToken
     ct = default)
   visibility: public
@@ -24059,21 +23937,9 @@ symbols:
   kind: method
   name: AddVersionAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 729
+  line: 714
   signature: public Task AddVersionAsync(PolicyVersion version, CancellationToken
     ct = default)
-  visibility: public
-  language: csharp
-  container: StubPolicyRepository
-  callers: []
-  callees: []
-- id: symbol:entity-renewal:stub-policy-repository.broker-exists-async
-  node: entity:renewal
-  kind: method
-  name: BrokerExistsAsync
-  file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 720
-  signature: public Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default)
   visibility: public
   language: csharp
   container: StubPolicyRepository
@@ -24084,7 +23950,7 @@ symbols:
   kind: method
   name: CountCurrentCoverageLinesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 771
+  line: 756
   signature: public Task<int> CountCurrentCoverageLinesAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -24097,7 +23963,7 @@ symbols:
   kind: method
   name: CountEndorsementsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 768
+  line: 753
   signature: public Task<int> CountEndorsementsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -24110,7 +23976,7 @@ symbols:
   kind: method
   name: CountOpenRenewalsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 774
+  line: 759
   signature: public Task<int> CountOpenRenewalsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -24123,7 +23989,7 @@ symbols:
   kind: method
   name: CountPoliciesForYearAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 762
+  line: 747
   signature: public Task<int> CountPoliciesForYearAsync(int year, CancellationToken
     ct = default)
   visibility: public
@@ -24136,7 +24002,7 @@ symbols:
   kind: method
   name: CountVersionsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 765
+  line: 750
   signature: public Task<int> CountVersionsAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -24149,7 +24015,7 @@ symbols:
   kind: method
   name: GetAccessibleByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 699
+  line: 690
   signature: public Task<Policy?> GetAccessibleByIdAsync(Guid id, ICurrentUserService
     user, Guid? brokerScopeId, CancellationToken ct = default)
   visibility: public
@@ -24162,7 +24028,7 @@ symbols:
   kind: method
   name: GetAccountByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 708
+  line: 699
   signature: public Task<Account?> GetAccountByIdAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -24175,7 +24041,7 @@ symbols:
   kind: method
   name: GetAccountSummaryAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 759
+  line: 744
   signature: public Task<PolicyAccountSummaryDto?> GetAccountSummaryAsync(Guid accountId,
     ICurrentUserService user, Guid? brokerScopeId, CancellationToken ct = default)
   visibility: public
@@ -24188,7 +24054,7 @@ symbols:
   kind: method
   name: GetBrokerByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 711
+  line: 702
   signature: public Task<Broker?> GetBrokerByIdAsync(Guid id, CancellationToken ct
     = default)
   visibility: public
@@ -24201,7 +24067,7 @@ symbols:
   kind: method
   name: GetByIdForUpdateAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 702
+  line: 693
   signature: public Task<Policy?> GetByIdForUpdateAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -24214,7 +24080,7 @@ symbols:
   kind: method
   name: GetByIdWithRelationsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 705
+  line: 696
   signature: public Task<Policy?> GetByIdWithRelationsAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -24233,7 +24099,7 @@ symbols:
   kind: method
   name: GetCarrierByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 714
+  line: 705
   signature: public Task<CarrierRef?> GetCarrierByIdAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -24246,7 +24112,7 @@ symbols:
   kind: method
   name: GetCurrentVersionAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 744
+  line: 729
   signature: public Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId, Guid?
     currentVersionId, CancellationToken ct = default)
   visibility: public
@@ -24260,7 +24126,7 @@ symbols:
   kind: method
   name: GetCurrentVersionForUpdateAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 747
+  line: 732
   signature: public Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid policyId,
     Guid? currentVersionId, CancellationToken ct = default)
   visibility: public
@@ -24273,7 +24139,7 @@ symbols:
   kind: method
   name: GetSuccessorPolicyAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 777
+  line: 762
   signature: public Task<Policy?> GetSuccessorPolicyAsync(Guid policyId, CancellationToken
     ct = default)
   visibility: public
@@ -24286,7 +24152,7 @@ symbols:
   kind: method
   name: GetVersionAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 750
+  line: 735
   signature: public Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid versionId,
     CancellationToken ct = default)
   visibility: public
@@ -24299,7 +24165,7 @@ symbols:
   kind: method
   name: ListAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 696
+  line: 687
   signature: public Task<PaginatedResult<Policy>> ListAsync(PolicyListQuery query,
     Guid? brokerScopeId, CancellationToken ct = default)
   visibility: public
@@ -24314,7 +24180,7 @@ symbols:
   kind: method
   name: ListCurrentCoverageLinesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 756
+  line: 741
   signature: public Task<IReadOnlyList<PolicyCoverageLine>> ListCurrentCoverageLinesAsync(Guid
     policyId, CancellationToken ct = default)
   visibility: public
@@ -24327,7 +24193,7 @@ symbols:
   kind: method
   name: ListEndorsementsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 753
+  line: 738
   signature: public Task<PaginatedResult<PolicyEndorsement>> ListEndorsementsAsync(Guid
     policyId, int page, int pageSize, CancellationToken ct = default)
   visibility: public
@@ -24340,7 +24206,7 @@ symbols:
   kind: method
   name: ListIssuedPoliciesExpiredBeforeAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 780
+  line: 765
   signature: public Task<IReadOnlyList<Policy>> ListIssuedPoliciesExpiredBeforeAsync(DateTime
     today, int maxBatchSize, CancellationToken ct = default)
   visibility: public
@@ -24353,7 +24219,7 @@ symbols:
   kind: method
   name: ListVersionsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 741
+  line: 726
   signature: public Task<PaginatedResult<PolicyVersion>> ListVersionsAsync(Guid policyId,
     int page, int pageSize, CancellationToken ct = default)
   visibility: public
@@ -24366,7 +24232,7 @@ symbols:
   kind: method
   name: ProducerExistsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 723
+  line: 708
   signature: public Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct =
     default)
   visibility: public
@@ -24379,7 +24245,7 @@ symbols:
   kind: method
   name: SetCoverageCurrentAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 738
+  line: 723
   signature: public Task SetCoverageCurrentAsync(Guid policyId, Guid policyVersionId,
     CancellationToken ct = default)
   visibility: public
@@ -24392,7 +24258,7 @@ symbols:
   kind: method
   name: GetAccountByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 688
+  line: 679
   signature: public Task<Account?> GetAccountByIdAsync(Guid id, CancellationToken
     ct = default)
   visibility: public
@@ -24405,7 +24271,7 @@ symbols:
   kind: method
   name: GetAccountsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 682
+  line: 673
   signature: public Task<IReadOnlyList<Account>> GetAccountsAsync(CancellationToken
     ct = default)
   visibility: public
@@ -24418,7 +24284,7 @@ symbols:
   kind: method
   name: GetMgasAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 683
+  line: 674
   signature: public Task<IReadOnlyList<MGA>> GetMgasAsync(CancellationToken ct = default)
   visibility: public
   language: csharp
@@ -24430,7 +24296,7 @@ symbols:
   kind: method
   name: GetPolicyByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 689
+  line: 680
   signature: public Task<Policy?> GetPolicyByIdAsync(Guid id, CancellationToken ct
     = default)
   visibility: public
@@ -24444,7 +24310,7 @@ symbols:
   kind: method
   name: GetProgramByIdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 690
+  line: 681
   signature: public Task<Nebula.Domain.Entities.Program?> GetProgramByIdAsync(Guid
     id, CancellationToken ct = default)
   visibility: public
@@ -24457,7 +24323,7 @@ symbols:
   kind: method
   name: GetProgramsAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 684
+  line: 675
   signature: public Task<IReadOnlyList<Nebula.Domain.Entities.Program>> GetProgramsAsync(CancellationToken
     ct = default)
   visibility: public
@@ -24470,7 +24336,7 @@ symbols:
   kind: method
   name: GetRenewalStatusesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 687
+  line: 678
   signature: public Task<IReadOnlyList<ReferenceRenewalStatus>> GetRenewalStatusesAsync(CancellationToken
     ct = default)
   visibility: public
@@ -24483,7 +24349,7 @@ symbols:
   kind: method
   name: GetSubmissionStatusesAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 686
+  line: 677
   signature: public Task<IReadOnlyList<ReferenceSubmissionStatus>> GetSubmissionStatusesAsync(CancellationToken
     ct = default)
   visibility: public
@@ -24496,7 +24362,7 @@ symbols:
   kind: method
   name: Seed
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 680
+  line: 671
   signature: public void Seed(Policy policy)
   visibility: public
   language: csharp
@@ -24661,7 +24527,7 @@ symbols:
   kind: method
   name: GetChecklistAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 826
+  line: 811
   signature: public Task<IReadOnlyList<SubmissionDocumentCheckDto>> GetChecklistAsync(Guid
     submissionId, CancellationToken ct = default)
   visibility: public
@@ -24808,7 +24674,7 @@ symbols:
   kind: method
   name: GetThresholdAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 807
+  line: 792
   signature: public Task<WorkflowSlaThreshold?> GetThresholdAsync(
   visibility: public
   language: csharp
@@ -24822,7 +24688,7 @@ symbols:
   kind: method
   name: AddAsync
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 669
+  line: 660
   signature: public Task AddAsync(WorkflowTransition transition, CancellationToken
     ct = default)
   visibility: public
@@ -24832,18 +24698,6 @@ symbols:
   - symbol:entity-renewal:renewal-repository.add-async
   - symbol:entity-renewal:renewal-service.create-async
   - symbol:entity-renewal:renewal-service.transition-async
-  callees: []
-- id: symbol:entity-renewal:stub-workflow-transition-repository.get-latest-transition-times-async
-  node: entity:renewal
-  kind: method
-  name: GetLatestTransitionTimesAsync
-  file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 660
-  signature: public Task<IReadOnlyDictionary<Guid, DateTime>> GetLatestTransitionTimesAsync(
-  visibility: public
-  language: csharp
-  container: StubWorkflowTransitionRepository
-  callers: []
   callees: []
 - id: symbol:entity-renewal:stub-workflow-transition-repository.items
   node: entity:renewal
@@ -25155,7 +25009,7 @@ symbols:
   kind: class
   name: StubLobSchemaRepository
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 784
+  line: 769
   signature: 'internal sealed class StubLobSchemaRepository : ILobSchemaRepository'
   visibility: internal
   language: csharp
@@ -25166,7 +25020,7 @@ symbols:
   kind: class
   name: StubPolicyRepository
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 694
+  line: 685
   signature: 'internal sealed class StubPolicyRepository : IPolicyRepository'
   visibility: internal
   language: csharp
@@ -25177,7 +25031,7 @@ symbols:
   kind: class
   name: StubReferenceDataRepository
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 676
+  line: 667
   signature: 'internal sealed class StubReferenceDataRepository : IReferenceDataRepository'
   visibility: internal
   language: csharp
@@ -25199,7 +25053,7 @@ symbols:
   kind: class
   name: StubSubmissionDocumentChecklistReader
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 824
+  line: 809
   signature: 'internal sealed class StubSubmissionDocumentChecklistReader : ISubmissionDocumentChecklistReader'
   visibility: internal
   language: csharp
@@ -25221,7 +25075,7 @@ symbols:
   kind: class
   name: StubWorkflowSlaThresholdRepository
   file: engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
-  line: 805
+  line: 790
   signature: 'internal sealed class StubWorkflowSlaThresholdRepository : IWorkflowSlaThresholdRepository'
   visibility: internal
   language: csharp
@@ -31669,20 +31523,8 @@ symbols:
   kind: method
   name: AddAsync
   file: engine/src/Nebula.Application/Interfaces/IWorkflowTransitionRepository.cs
-  line: 12
-  signature: Task AddAsync(WorkflowTransition transition, CancellationToken ct = default)
-  visibility: internal
-  language: csharp
-  container: IWorkflowTransitionRepository
-  callers: []
-  callees: []
-- id: symbol:entity-workflow-transition:i-workflow-transition-repository.get-latest-transition-times-async
-  node: entity:workflow-transition
-  kind: method
-  name: GetLatestTransitionTimesAsync
-  file: engine/src/Nebula.Application/Interfaces/IWorkflowTransitionRepository.cs
   line: 8
-  signature: Task<IReadOnlyDictionary<Guid, DateTime>> GetLatestTransitionTimesAsync(
+  signature: Task AddAsync(WorkflowTransition transition, CancellationToken ct = default)
   visibility: internal
   language: csharp
   container: IWorkflowTransitionRepository
@@ -31869,21 +31711,9 @@ symbols:
   kind: method
   name: AddAsync
   file: engine/src/Nebula.Infrastructure/Repositories/WorkflowTransitionRepository.cs
-  line: 36
+  line: 17
   signature: public async Task AddAsync(WorkflowTransition transition, CancellationToken
     ct = default)
-  visibility: public
-  language: csharp
-  container: WorkflowTransitionRepository
-  callers: []
-  callees: []
-- id: symbol:entity-workflow-transition:workflow-transition-repository.get-latest-transition-times-async
-  node: entity:workflow-transition
-  kind: method
-  name: GetLatestTransitionTimesAsync
-  file: engine/src/Nebula.Infrastructure/Repositories/WorkflowTransitionRepository.cs
-  line: 17
-  signature: public async Task<IReadOnlyDictionary<Guid, DateTime>> GetLatestTransitionTimesAsync(
   visibility: public
   language: csharp
   container: WorkflowTransitionRepository

@@ -678,34 +678,6 @@ public class AccountService(
         return await accountRepo.GetAccessibleByIdAsync(id, user, brokerScopeId, ct) is not null;
     }
 
-    public async Task<PaginatedResult<AccountPolicyListItemDto>> ListPoliciesAsync(
-        Guid id,
-        int page,
-        int pageSize,
-        ICurrentUserService user,
-        CancellationToken ct = default)
-    {
-        var brokerScopeId = await ResolveBrokerScopeAsync(user, ct);
-        var accessible = await accountRepo.GetAccessibleByIdAsync(id, user, brokerScopeId, ct);
-        if (accessible is null)
-            return new PaginatedResult<AccountPolicyListItemDto>([], page, pageSize, 0);
-
-        var policies = await accountRepo.ListPoliciesAsync(id, page, pageSize, ct);
-        return new PaginatedResult<AccountPolicyListItemDto>(
-            policies.Data.Select(policy => new AccountPolicyListItemDto(
-                policy.Id,
-                policy.PolicyNumber,
-                policy.Carrier?.Name,
-                policy.LineOfBusiness,
-                policy.EffectiveDate,
-                policy.ExpirationDate,
-                policy.TotalPremium,
-                policy.CurrentStatus)).ToList(),
-            policies.Page,
-            policies.PageSize,
-            policies.TotalCount);
-    }
-
     private async Task<Guid?> ResolveBrokerScopeAsync(ICurrentUserService user, CancellationToken ct)
     {
         if (!user.Roles.Contains("BrokerUser"))
