@@ -105,6 +105,16 @@ class SymbolRecord:
     # answer ``--implementers`` / ``--overrides`` without re-resolution.
     # Unresolvable entries are dropped during resolution.
     implements: list[Any] = field(default_factory=list)
+    # Type instantiations and type references emitted by C# and TS extractors
+    # (cheap, high-value extra edges per the §11 measurement: ~0.4x existing
+    # edge count combined). Raw lists carry ``{name, container}`` dicts from
+    # the semantic extractors; ``resolve_call_edges`` rewrites the resolved
+    # ``instantiates`` / ``type_refs`` arrays in-place with target symbol ids.
+    # Unidirectional — no back-edge persisted on the target side.
+    raw_instantiates: list[Any] = field(default_factory=list)
+    raw_type_refs: list[Any] = field(default_factory=list)
+    instantiates: list[str] = field(default_factory=list)
+    type_refs: list[str] = field(default_factory=list)
 
     def to_cache_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -112,6 +122,8 @@ class SymbolRecord:
     def to_index_dict(self) -> dict[str, Any]:
         d = asdict(self)
         d.pop("raw_calls", None)
+        d.pop("raw_instantiates", None)
+        d.pop("raw_type_refs", None)
         if d.get("container") is None:
             d.pop("container", None)
         if not d.get("end_line"):
@@ -120,6 +132,10 @@ class SymbolRecord:
             d.pop("implements", None)
         if not d.get("is_test"):
             d.pop("is_test", None)
+        if not d.get("instantiates"):
+            d.pop("instantiates", None)
+        if not d.get("type_refs"):
+            d.pop("type_refs", None)
         return d
 
 
@@ -459,6 +475,16 @@ class SubprocessExtractor(BaseExtractor):
                 for impl in (item.get("implements") or [])
                 if isinstance(impl, dict) and impl.get("name") and impl.get("container")
             ]
+            raw_instantiates = [
+                dict(ref)
+                for ref in (item.get("instantiates") or [])
+                if isinstance(ref, dict) and ref.get("name")
+            ]
+            raw_type_refs = [
+                dict(ref)
+                for ref in (item.get("type_refs") or [])
+                if isinstance(ref, dict) and ref.get("name")
+            ]
             records.append(SymbolRecord(
                 id=symbol_id(node_id, container, name, file_rel=rel_file),
                 node=node_id,
@@ -473,6 +499,8 @@ class SubprocessExtractor(BaseExtractor):
                 container=container,
                 raw_calls=raw_calls,
                 implements=implements,
+                raw_instantiates=raw_instantiates,
+                raw_type_refs=raw_type_refs,
             ))
 
         if sidecar_path is not None and sidecar_path.exists():
@@ -601,9 +629,14 @@ def hash_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def normalized_compilation_roots(roots: list[str]) -> list[str]:
+    """Stable, displayable form of a compilation-root list."""
+    return sorted({r.replace("\\", "/").rstrip("/") for r in roots if r})
+
+
 def compilation_roots_hash(roots: list[str]) -> str:
     """Stable digest of a sorted, normalized root list."""
-    normalized = sorted({r.replace("\\", "/").rstrip("/") for r in roots if r})
+    normalized = normalized_compilation_roots(roots)
     joined = "\n".join(normalized).encode("utf-8")
     return hashlib.sha256(joined).hexdigest()
 
@@ -776,10 +809,18 @@ def resolve_call_edges(records: list[SymbolRecord]) -> None:
     """
     by_node_name: dict[tuple[str, str], list[SymbolRecord]] = {}
     by_qualified: dict[tuple[str, str], list[SymbolRecord]] = {}
+    # Cross-node lookup for top-level types — used by instantiates / type_refs
+    # whose target is a class, record, struct, interface, enum, or type alias.
+    # Methods/properties stay constrained to (container, name) so call
+    # resolution semantics are unchanged.
+    TYPE_KINDS = frozenset({"class", "record", "struct", "interface", "enum", "type", "delegate"})
+    by_top_level_type_name: dict[str, list[SymbolRecord]] = {}
     for rec in records:
         by_node_name.setdefault((rec.node, rec.name), []).append(rec)
         if rec.container:
             by_qualified.setdefault((rec.container, rec.name), []).append(rec)
+        elif rec.kind in TYPE_KINDS:
+            by_top_level_type_name.setdefault(rec.name, []).append(rec)
 
     def add_edge(caller: SymbolRecord, callee: SymbolRecord) -> None:
         if callee.id == caller.id:
@@ -825,6 +866,46 @@ def resolve_call_edges(records: list[SymbolRecord]) -> None:
                 resolved_iface_ids.append(iface_member.id)
         # Sort/dedupe for stable diffs.
         impl.implements = sorted(set(resolved_iface_ids))
+
+    # Resolve raw_instantiates / raw_type_refs into target symbol ids. These
+    # are unidirectional — the target does NOT gain a reciprocal edge, so a
+    # symbol's `callers` semantics stay unchanged. Consumers that want
+    # reverse-scan (e.g. "who instantiates Foo") reverse the array at query
+    # time the same way --implementers reverses `implements`.
+    #
+    # Resolution falls back from (container, name) qualified lookup to
+    # cross-node `by_top_level_type_name` so an instantiation on
+    # entity:order that targets a class bound to entity:customer resolves
+    # correctly. Same-node `by_node_name` is also consulted as a final
+    # fallback for languages whose extractor doesn't emit container info.
+    def _resolve_refs(refs: list[Any], own_node: str) -> list[str]:
+        resolved: set[str] = set()
+        for ref in refs:
+            if not isinstance(ref, dict):
+                continue
+            name = ref.get("name")
+            if not name:
+                continue
+            container = ref.get("container")
+            if container:
+                for target in by_qualified.get((container, name), []):
+                    resolved.add(target.id)
+                continue
+            per_ref_hits: set[str] = set()
+            for target in by_top_level_type_name.get(name, []):
+                per_ref_hits.add(target.id)
+            if not per_ref_hits:
+                for target in by_node_name.get((own_node, name), []):
+                    per_ref_hits.add(target.id)
+            resolved.update(per_ref_hits)
+        return sorted(resolved)
+
+    for rec in records:
+        rec.instantiates = _resolve_refs(rec.raw_instantiates, rec.node)
+        # A symbol referencing its own declared type is noise; drop self-edges.
+        rec.instantiates = [s for s in rec.instantiates if s != rec.id]
+        rec.type_refs = _resolve_refs(rec.raw_type_refs, rec.node)
+        rec.type_refs = [s for s in rec.type_refs if s != rec.id]
 
     for rec in records:
         rec.callers.sort()
@@ -1175,9 +1256,13 @@ def build_symbol_bundle(
     # Compilation-roots cache invalidation: if a language's roots changed
     # between runs, drop every cached entry for that language because Roslyn /
     # ts-morph resolution depends on what else is in the compilation.
-    current_roots_hashes: dict[str, str] = {
-        lang: compilation_roots_hash(getattr(ext, "compilation_roots", []))
+    current_roots_by_language: dict[str, list[str]] = {
+        lang: normalized_compilation_roots(getattr(ext, "compilation_roots", []))
         for lang, ext in extractors.items()
+    }
+    current_roots_hashes: dict[str, str] = {
+        lang: compilation_roots_hash(roots)
+        for lang, roots in current_roots_by_language.items()
     }
     if not force:
         previous = load_previous_roots_hashes()
@@ -1232,9 +1317,50 @@ def build_symbol_bundle(
         "by_language": parse_stats,
         "disambiguated_ids": rewrites,
         "sidecar_authoritative": sorted(sidecar_authoritative),
+        "compilation_roots_by_language": current_roots_by_language,
+        "compilation_roots_hash_by_language": current_roots_hashes,
         "test_symbols": sum(1 for r in all_records if r.is_test),
     }
     return all_records, summary, new_cache, current_roots_hashes, sidecar_by_language
+
+
+def load_existing_unbound_invocations(
+    authoritative_languages: set[str],
+) -> list[dict[str, Any]]:
+    """Return prior sidecar entries for languages not refreshed this run."""
+    if not UNBOUND_REFS_PATH.exists():
+        return []
+    try:
+        doc = yaml.safe_load(UNBOUND_REFS_PATH.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return []
+
+    preserved: list[dict[str, Any]] = []
+    for entry in doc.get("invocations", []) or []:
+        if not isinstance(entry, dict):
+            continue
+        language = entry.get("language")
+        if language and language not in authoritative_languages:
+            preserved.append(entry)
+    return preserved
+
+
+def load_existing_unbound_languages() -> list[str]:
+    """Return languages represented in the current unbound sidecar."""
+    if not UNBOUND_REFS_PATH.exists():
+        return []
+    try:
+        doc = yaml.safe_load(UNBOUND_REFS_PATH.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return []
+
+    return sorted(
+        {
+            entry["language"]
+            for entry in doc.get("invocations", []) or []
+            if isinstance(entry, dict) and entry.get("language")
+        }
+    )
 
 
 def write_unbound_but_referenced(
@@ -1251,15 +1377,10 @@ def write_unbound_but_referenced(
     Returns the total number of invocation entries written.
 
     `authoritative_languages` is the set of languages whose extractor actually
-    ran this invocation (vs. fully satisfied by cache). When the set is empty
-    we have no fresh sidecar truth — leave any existing yaml in place rather
-    than rewriting it.
-
-    NOTE: in Phase A1 only C# has sidecar support. When TS gains a sidecar in
-    Phase A2 this function will need to merge fresh entries for authoritative
-    languages with preserved entries (from the existing yaml on disk) for
-    non-authoritative languages. Today the simpler all-or-nothing rule is
-    enough.
+    ran this invocation (vs. fully satisfied by cache). The sidecar is a
+    language-scoped snapshot: replace entries for refreshed languages, preserve
+    existing entries for languages that were not refreshed, and never append
+    stale findings indefinitely.
     """
     if not authoritative_languages:
         return 0
@@ -1270,11 +1391,20 @@ def write_unbound_but_referenced(
         if rec.container:
             by_qualified.setdefault((rec.container, rec.name), []).append(rec)
 
-    invocations: list[dict[str, Any]] = []
+    invocations: list[dict[str, Any]] = load_existing_unbound_invocations(
+        authoritative_languages
+    )
     source_files: set[str] = set()
     bound_targets: set[str] = set()
 
-    for language, entries in sorted(sidecar_by_language.items()):
+    for entry in invocations:
+        if entry.get("source_file"):
+            source_files.add(entry["source_file"])
+        if entry.get("target_symbol"):
+            bound_targets.add(entry["target_symbol"])
+
+    for language in sorted(authoritative_languages):
+        entries = sidecar_by_language.get(language, [])
         for entry in entries:
             source_file = entry.get("source_file")
             source_line = entry.get("source_line")
@@ -1322,6 +1452,13 @@ def write_unbound_but_referenced(
     for e in invocations:
         by_lang_counts[e["language"]] = by_lang_counts.get(e["language"], 0) + 1
 
+    preserved_languages = sorted(
+        {
+            e["language"]
+            for e in invocations
+            if e.get("language") not in authoritative_languages
+        }
+    )
     payload = {
         "version": 0,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -1330,6 +1467,8 @@ def write_unbound_but_referenced(
             "by_language": by_lang_counts,
             "source_files": len(source_files),
             "bound_targets": len(bound_targets),
+            "refreshed_languages": sorted(authoritative_languages),
+            "preserved_languages": preserved_languages,
         },
         "invocations": invocations,
     }
@@ -1342,6 +1481,10 @@ def write_unbound_but_referenced(
 
 
 def write_symbol_index(records: list[SymbolRecord], summary: dict[str, Any]) -> None:
+    sidecar_languages = summary.get("sidecar_authoritative", [])
+    if not sidecar_languages:
+        sidecar_languages = load_existing_unbound_languages()
+
     payload = {
         "version": 0,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -1349,6 +1492,13 @@ def write_symbol_index(records: list[SymbolRecord], summary: dict[str, Any]) -> 
             "total_symbols": summary["total_symbols"],
             "by_language": summary["by_language"],
             "disambiguated_ids": summary.get("disambiguated_ids", 0),
+            "compilation_roots_by_language": summary.get(
+                "compilation_roots_by_language", {}
+            ),
+            "compilation_roots_hash_by_language": summary.get(
+                "compilation_roots_hash_by_language", {}
+            ),
+            "sidecar_authoritative_languages": sidecar_languages,
         },
         "symbols": [r.to_index_dict() for r in sorted(records, key=lambda x: x.id)],
     }
@@ -1410,11 +1560,17 @@ def main() -> int:
         write_symbol_index(records, summary)
         save_cache(new_cache)
         save_roots_hashes(roots_hashes)
-        unbound_count = write_unbound_but_referenced(
-            sidecar_by_language,
-            records,
-            set(summary.get("sidecar_authoritative", []) or []),
-        )
+        if node_filter:
+            print(
+                "  Unbound-but-referenced sidecar unchanged "
+                "(node-scoped run is not a full language snapshot)"
+            )
+        else:
+            unbound_count = write_unbound_but_referenced(
+                sidecar_by_language,
+                records,
+                set(summary.get("sidecar_authoritative", []) or []),
+            )
 
     print(f"Symbol index: {summary['total_symbols']} symbols")
     for lang in ("python", "typescript", "csharp"):
