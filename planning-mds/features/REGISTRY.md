@@ -12,12 +12,14 @@
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 
-## Abandoned Features
+## Retired Features
 
-| Feature ID | Name | Superseded By | Abandoned Date | Folder |
-|------------|------|---------------|----------------|--------|
-| F0010 | Dashboard Opportunities Refactor (Pipeline Board + Insight Views) | F0013 | 2026-03-14 | `archive/F0010-dashboard-opportunities-refactor/` |
-| F0011 | Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes) | F0013 | 2026-03-14 | `archive/F0011-dashboard-opportunities-flow-modernization/` |
+Per §19 of the feature-evidence package contract. Replaces the legacy `Abandoned Features` section. Retired features are registry records that were not delivered as completed scope.
+
+| Feature ID | Name | Terminal Status | Superseded By | Retired Date | Folder | Reason |
+|------------|------|-----------------|---------------|--------------|--------|--------|
+| F0010 | Dashboard Opportunities Refactor (Pipeline Board + Insight Views) | Superseded | F0013 | 2026-03-14 | `archive/F0010-dashboard-opportunities-refactor/` | Superseded by F0013 framed storytelling canvas approach |
+| F0011 | Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes) | Superseded | F0013 | 2026-03-14 | `archive/F0011-dashboard-opportunities-flow-modernization/` | Superseded by F0013 framed storytelling canvas approach |
 
 ## Planned (Reserved IDs)
 
