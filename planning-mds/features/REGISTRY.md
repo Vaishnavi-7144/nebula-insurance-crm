@@ -1,6 +1,6 @@
 # Feature Registry
 
-**Next Available Feature Number:** F0036
+**Next Available Feature Number:** F0037
 
 **Planning Views:**
 - Roadmap sequencing (`Now / Next / Later`): `planning-mds/features/ROADMAP.md`
@@ -11,6 +11,7 @@
 
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
+| F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | Phase A draft pending approval | Platform Foundation / CRM Release MVP Enabler | `F0036-dynamic-product-attribute-form-engine/` |
 
 ## Retired Features
 
