@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SONAR_HOST_URL="${SONAR_HOST_URL:-http://localhost:9002}"
-SONAR_PROJECT_KEY="${SONAR_PROJECT_KEY:-nebula-crm}"
+SONAR_PROJECT_KEY="${SONAR_PROJECT_KEY:-nebula-insurance-crm}"
 
 docker compose -f docker-compose.yml -f docker-compose.qe.yml up -d sonarqube
 

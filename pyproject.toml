@@ -1,5 +1,5 @@
 [project]
-name = "nebula-crm"
+name = "nebula-insurance-crm"
 version = "0.0.0"
 description = "Nebula CRM tooling dependencies"
 requires-python = ">=3.12"
