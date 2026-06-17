@@ -104,6 +104,35 @@ def test_graceful_degradation_no_turns() -> None:
         assert m["cache_write_spikes"] == []
 
 
+def test_stdin_hook_ingests_transcript_path(tmp_path: Path) -> None:
+    record = {"type": "assistant", "sessionId": "s1", "timestamp": "2026-06-16T00:00:00Z",
+              "isSidechain": False,
+              "message": {"id": "msg_A", "model": "claude-opus-4-8",
+                          "usage": {"input_tokens": 100, "output_tokens": 20,
+                                    "cache_read_input_tokens": 800,
+                                    "cache_creation_input_tokens": 50}}}
+    transcript = tmp_path / "t.jsonl"
+    transcript.write_text(json.dumps(record) + "\n", encoding="utf-8")
+    out = tmp_path / "usage.jsonl"
+    envelope = json.dumps({"hook_event_name": "Stop", "session_id": "s1",
+                           "transcript_path": str(transcript)})
+
+    rc = kg_usage.ingest_from_hook_stdin(envelope, out_path=out)
+
+    assert rc == 0
+    assert len(out.read_text(encoding="utf-8").strip().splitlines()) == 1
+
+
+def test_stdin_hook_never_blocks_on_bad_input(tmp_path: Path) -> None:
+    out = tmp_path / "usage.jsonl"
+    # empty stdin, invalid json, and a transcript_path that does not exist
+    assert kg_usage.ingest_from_hook_stdin("", out_path=out) == 0
+    assert kg_usage.ingest_from_hook_stdin("not json", out_path=out) == 0
+    assert kg_usage.ingest_from_hook_stdin(
+        json.dumps({"transcript_path": "/no/such/file.jsonl"}), out_path=out) == 0
+    assert not out.exists()  # nothing written when there's nothing valid to ingest
+
+
 def test_ingest_is_idempotent(tmp_path: Path) -> None:
     record = {"type": "assistant", "sessionId": "s1", "timestamp": "2026-06-16T00:00:00Z",
               "isSidechain": False,

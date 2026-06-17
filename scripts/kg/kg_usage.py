@@ -141,6 +141,25 @@ def ingest(transcripts: Iterable[Path], out_path: Path = USAGE_PATH) -> int:
     return written
 
 
+def ingest_from_hook_stdin(stdin_text: str, out_path: Path = USAGE_PATH) -> int:
+    """Claude Code Stop-hook adapter: ingest the current session's transcript.
+
+    The Stop-hook JSON envelope carries `transcript_path`, so ingestion never depends
+    on the cwd->slug guess in default_transcript_dir(). Best-effort by design: any
+    failure returns 0 so a telemetry hiccup never blocks the session from stopping.
+    (This is the one harness-coupled piece; it sits behind the Phase 3 adapter boundary.)
+    """
+    try:
+        data = json.loads(stdin_text) if stdin_text.strip() else {}
+        tp = data.get("transcript_path")
+        if tp and Path(tp).is_file():
+            n = ingest([Path(tp)], out_path=out_path)
+            print(f"kg_usage: ingested {n} new turn event(s)", flush=True)
+    except Exception as exc:  # never block session stop on a telemetry error
+        print(f"kg_usage: stop-hook ingest skipped ({exc})", flush=True)
+    return 0
+
+
 # ---------- metrics (importable by eval.py) ----------
 
 def _turn_from_event(event: dict[str, Any]) -> Turn | None:
@@ -217,12 +236,17 @@ def main() -> int:
     ing = sub.add_parser("ingest", help="Parse harness transcripts into .kg-state/usage.jsonl")
     ing.add_argument("--transcript", action="append", default=[], help="Transcript .jsonl (repeatable).")
     ing.add_argument("--transcript-dir", default=None, help="Dir of *.jsonl (default: Claude Code project dir for cwd).")
+    ing.add_argument("--stdin-hook", action="store_true",
+                     help="Claude Code Stop-hook mode: read the hook JSON from stdin and "
+                          "ingest its transcript_path. Best-effort; always exits 0.")
     rep = sub.add_parser("report", help="Print cache metrics from .kg-state/usage.jsonl")
     rep.add_argument("--json", action="store_true")
     rep.add_argument("--spike-factor", type=float, default=SPIKE_FACTOR)
     args = ap.parse_args()
 
     if args.cmd == "ingest":
+        if args.stdin_hook:
+            return ingest_from_hook_stdin(sys.stdin.read())
         paths = [Path(p) for p in args.transcript]
         if not paths:
             d = Path(args.transcript_dir) if args.transcript_dir else default_transcript_dir()
