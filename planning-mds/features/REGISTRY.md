@@ -12,8 +12,6 @@
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 
-_No active features — F0036 archived 2026-05-30; see Archived Features._
-
 ## Retired Features
 
 Per §19 of the feature-evidence package contract. Replaces the legacy `Abandoned Features` section. Retired features are registry records that were not delivered as completed scope.
@@ -28,7 +26,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 | F0008 | Broker Insights | Planned | MVP | `F0008-broker-insights/` |
-| F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | Planned | CRM Release MVP+ | `F0017-broker-mga-hierarchy-and-producer-ownership/` |
 | F0021 | Communication Hub & Activity Capture | Planned | CRM Release MVP | `F0021-communication-hub-and-activity-capture/` |
 | F0022 | Work Queues, Assignment Rules & Coverage Management | Planned | CRM Release MVP | `F0022-work-queues-assignment-rules-and-coverage-management/` |
 | F0024 | Claims & Service Case Tracking | Planned | CRM Release MVP+ | `F0024-claims-and-service-case-tracking/` |
@@ -49,6 +46,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | 2026-07-03 | `archive/F0017-broker-mga-hierarchy-and-producer-ownership/` |
 | F0023 | Global Search, Saved Views & Operational Reporting | 2026-06-20 | `archive/F0023-global-search-saved-views-and-operational-reporting/` |
 | F0019 | Submission Quoting, Proposal & Approval Workflow | 2026-06-03 | `archive/F0019-submission-quoting-proposal-and-approval/` |
 | F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | 2026-05-30 | `archive/F0036-dynamic-product-attribute-form-engine/` |

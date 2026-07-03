@@ -8,6 +8,18 @@ export default defineConfig(() => {
   const apiProxyTarget = process.env.NEBULA_API_PROXY_TARGET?.trim()
     || process.env.VITE_API_PROXY_TARGET?.trim()
     || 'http://localhost:5113'
+  const spaNavigationBypass = (request: { method?: string; headers: Record<string, string | string[] | undefined> }) => {
+    const accept = request.headers.accept
+    const acceptsHtml = Array.isArray(accept)
+      ? accept.some((value) => value.includes('text/html'))
+      : accept?.includes('text/html')
+
+    if (request.method === 'GET' && acceptsHtml) {
+      return '/index.html'
+    }
+
+    return undefined
+  }
   const apiProxyPaths = [
     // Keep OIDC callback (`/auth/callback`) on the frontend router.
     // Only logout should hit the API.
@@ -29,6 +41,10 @@ export default defineConfig(() => {
     '/operational-reports',
     '/documents',
     '/document-templates',
+    '/distribution-nodes',
+    '/producer-ownership',
+    '/territories',
+    '/territory-assignments',
     '/internal',
     '/lob-schemas',
     '/healthz',
@@ -65,6 +81,7 @@ export default defineConfig(() => {
           {
             target: apiProxyTarget,
             changeOrigin: true,
+            bypass: spaNavigationBypass,
           },
         ]),
       ),

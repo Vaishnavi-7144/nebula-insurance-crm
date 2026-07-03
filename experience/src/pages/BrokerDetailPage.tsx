@@ -21,10 +21,11 @@ import {
 import { useCurrentUser } from '@/features/auth';
 import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { useBrokerContacts } from '@/features/brokers/hooks/useBrokerContacts';
+import { DistributionPanels } from '@/features/distribution';
 import { ApiError } from '@/services/api';
 import type { ContactDto } from '@/features/brokers';
 
-const TABS = ['Profile', 'Contacts', 'Timeline'];
+const TABS = ['Profile', 'Contacts', 'Distribution', 'Timeline'];
 
 export default function BrokerDetailPage() {
   const { brokerId } = useParams<{ brokerId: string }>();
@@ -168,6 +169,15 @@ export default function BrokerDetailPage() {
                   setShowContactForm(true);
                 }}
                 onDeleteContact={(contact) => setDeletingContact(contact)}
+              />
+            )}
+            {activeTab === 'Distribution' && (
+              <DistributionPanels
+                nodeId={broker.id}
+                scopeType="BrokerRelationship"
+                scopeId={broker.id}
+                memberType="Broker"
+                memberId={broker.id}
               />
             )}
             {activeTab === 'Timeline' && <BrokerTimelineTab brokerId={broker.id} />}

@@ -599,7 +599,7 @@ capabilities:
   - id: capability:distribution-hierarchy-management
     label: Distribution Hierarchy Management
     source_docs:
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
     rationale:
       - adr: adr:026
@@ -608,12 +608,12 @@ capabilities:
   - id: capability:producer-ownership-management
     label: Producer Ownership Management
     source_docs:
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
   - id: capability:territory-management
     label: Territory Management
     source_docs:
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
   - id: capability:authorization-enforcement
     label: Authorization Enforcement
@@ -1299,7 +1299,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
     related_nodes:
       - capability:distribution-hierarchy-management
       - entity:broker
@@ -1314,7 +1314,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
     related_nodes:
       - capability:distribution-hierarchy-management
       - entity:broker
@@ -1328,7 +1328,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
     related_nodes:
       - capability:distribution-hierarchy-management
       - entity:broker
@@ -1342,7 +1342,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
     related_nodes:
       - capability:producer-ownership-management
       - entity:producer-ownership
@@ -1355,7 +1355,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
     related_nodes:
       - capability:producer-ownership-management
       - entity:producer-ownership
@@ -1369,7 +1369,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
     related_nodes:
       - capability:territory-management
       - entity:territory
@@ -1382,7 +1382,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
     related_nodes:
       - capability:territory-management
       - entity:territory
@@ -1395,7 +1395,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
     related_nodes:
       - capability:territory-management
       - entity:territory
@@ -1409,7 +1409,7 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
-      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
     related_nodes:
       - capability:territory-management
       - entity:territory-assignment
